@@ -15,10 +15,8 @@ function Builder(value) {
  * @param {number} - An arbitrary number of values to be added to the stored value.
  * @returns {object} - Returns the Builder instance.
  */
-Builder.prototype.plus = function () {
-    for (let num of arguments) {
-        this.value += num;
-    }
+Builder.prototype.plus = function (...args) {
+    args.forEach((num) => this.value += num);
 
     return this;
 }
@@ -28,10 +26,8 @@ Builder.prototype.plus = function () {
  * @param {number} - An arbitrary number of values to be subtracted from the stored value.
  * @returns {object} - Returns the Builder instance. 
  */
-Builder.prototype.minus = function () {
-    for (let num of arguments) {
-        this.value -= num;
-    }
+Builder.prototype.minus = function (...args) {
+    args.forEach((num) => this.value -= num);
 
     return this;
 }
@@ -86,8 +82,6 @@ function StringBuilder(str = '') {
 }
 
 StringBuilder.prototype = Object.create(Builder.prototype);
-StringBuilder.prototype.constructor = StringBuilder;
-StringBuilder.superclass = Builder.prototype;
 
 /**
  * The minus method removes the last 'num' characters from the stored string.
@@ -126,10 +120,8 @@ StringBuilder.prototype.multiply = function (multiplier) {
  * @returns {object} this - Returns the current instance of StringBuilder
  */
 StringBuilder.prototype.divide = function (divisor) {
-    if (divisor === 0) {
-        console.log('Cannot divide by zero!');
-    } else if (typeof divisor !== 'number') {
-        console.log(`'${divisor}' is not a number! Use .divide() method with a number.`);
+    if (typeof divisor !== 'number' || divisor === 0) {
+        console.log(`'${divisor}' is null or not a number! Use .divide() method with a number different from null.`);
     } else {
         let endPosioton = Math.floor(this.value.length / divisor);
         this.value = this.value.slice(0, endPosioton);
